@@ -112,7 +112,7 @@ export const POST_MOCKS: Localize<StrapiResponse<Post[]>> = {
             capsStatus: 'pending',
             content: null,
             title: 'Empati',
-            translationStatus: 'original',
+            translationStatus: 'pending',
           },
           {
             id: 438,

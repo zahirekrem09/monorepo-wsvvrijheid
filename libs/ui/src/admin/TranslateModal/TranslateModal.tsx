@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 import {
   HStack,
@@ -14,54 +14,13 @@ import {
   Accordion,
   IconButton,
 } from '@chakra-ui/react'
-import { StrapiLocale, StrapiTranslatableModel } from '@wsvvrijheid/types'
-import { isEmpty } from 'lodash'
+import { StrapiTranslatableModel } from '@wsvvrijheid/types'
 import { AiOutlineArrowLeft, AiOutlineCheck } from 'react-icons/ai'
 
 import { TranslateAccordionItem } from './TranslateAccordionItem'
 import { TranslateForm } from './TranslateForm'
-import {
-  DefaultTranslatableModel,
-  TranslateModalProps,
-  TranslationKey,
-  LocalizedModel,
-  TranslatableModel,
-} from './types'
-
-const mapModelLocalization = <T extends StrapiTranslatableModel>({
-  localizations,
-  ...model
-}: DefaultTranslatableModel<T>) => {
-  const defaultLocalizedModel = {
-    [model.locale]: {
-      ...model,
-      translationStatus: model.translationStatus || 'pending',
-      image: model.images?.[0] || model.image,
-    },
-  } as LocalizedModel<T>
-
-  const localizedModels = localizations?.reduce((acc, localization) => {
-    return {
-      ...acc,
-      [localization.locale]: {
-        ...localization,
-        status: localization.translationStatus || 'pending',
-        image:
-          (localization as TranslatableModel<T>)?.images?.[0] ||
-          (localization as TranslatableModel<T>)?.image,
-      },
-    }
-  }, {} as LocalizedModel<T>)
-
-  if (!isEmpty(localizedModels)) {
-    return {
-      ...defaultLocalizedModel,
-      ...localizedModels,
-    }
-  }
-
-  return defaultLocalizedModel
-}
+import { TranslateModalProps, TranslationKey } from './types'
+import { useModelTranslations } from './useModelTranslations'
 
 export const TranslateModal = <T extends StrapiTranslatableModel>({
   isOpen,
@@ -73,32 +32,8 @@ export const TranslateModal = <T extends StrapiTranslatableModel>({
   const [translationKey, setTranslationKey] = useState<TranslationKey>()
   const [step, setStep] = useState(0)
 
-  const { modelsWithMissingTranslations, localizedModels } = useMemo(() => {
-    const locales = ['tr', 'en', 'nl'] as StrapiLocale[]
-
-    // From model to object with its localizations { tr: data, en: data, nl: data }
-    const localizedModels = mapModelLocalization<T>(model)
-
-    const modelsWithMissingTranslations = Object.values(localizedModels).map(
-      model => {
-        // Find missing translations for the current model
-        // Approved localizations are not included in the missing translations
-        const missingTranslations = locales.filter(locale => {
-          return (
-            locale !== model.locale &&
-            localizedModels[locale]?.translationStatus !== 'approved'
-          )
-        }) as StrapiLocale[]
-
-        return {
-          ...model,
-          missingTranslations,
-        }
-      },
-    )
-
-    return { modelsWithMissingTranslations, localizedModels }
-  }, [model])
+  const { modelsWithMissingTranslations, localizedModels } =
+    useModelTranslations(model)
 
   const handleTranslate = (key: TranslationKey) => {
     setStep(prev => prev + 1)
@@ -118,10 +53,10 @@ export const TranslateModal = <T extends StrapiTranslatableModel>({
     <Box>
       <Modal onClose={onClose} isOpen={isOpen} scrollBehavior="inside">
         <ModalOverlay />
-        <ModalContent maxW="95vw" h="full">
+        <ModalContent maxW="95vw" h="95vh">
           <ModalHeader
             fontSize="xl"
-            fontWeight="bold"
+            fontWeight="semibold"
             borderBottomWidth={step > 0 ? 1 : 0}
           >
             {step > 0 && (
@@ -150,8 +85,8 @@ export const TranslateModal = <T extends StrapiTranslatableModel>({
             )}
             {step === 1 && translationKey && (
               <TranslateForm
-                translationKey={translationKey}
                 localizedModels={localizedModels}
+                translationKey={translationKey}
               />
             )}
           </ModalBody>
@@ -160,12 +95,10 @@ export const TranslateModal = <T extends StrapiTranslatableModel>({
               <HStack spacing={3}>
                 <Button
                   display={{ base: 'none', lg: 'flex' }}
-                  textColor={'white'}
                   onClick={handleReturn}
-                  bg={'gray.400'}
                   leftIcon={<AiOutlineArrowLeft />}
                 >
-                  Return
+                  Go Back
                 </Button>
                 <Button
                   onClick={handleSaveDraft}

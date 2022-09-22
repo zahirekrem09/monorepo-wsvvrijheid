@@ -1,6 +1,5 @@
-import { setupWorker } from 'msw'
+export { setupWorker } from 'msw'
 
-import { handlers } from './handlers'
+export { handlers } from './handlers'
 
 // This configures a Service Worker with the given request handlers.
-export const mockWorker = setupWorker(...handlers)

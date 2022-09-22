@@ -3,12 +3,14 @@ import React from 'react'
 
 import { Box } from '@chakra-ui/react'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import { setupWorker } from 'msw'
 import { Provider as ReduxProvider } from 'react-redux'
 
-import { mockWorker, store, themes } from '../src/exports'
+import { store, themes, handlers } from '../src/exports'
 import '@splidejs/react-splide/css'
 import i18n from './i18next'
 
+const mockWorker = setupWorker(...handlers)
 mockWorker.start()
 mockWorker.printHandlers()
 

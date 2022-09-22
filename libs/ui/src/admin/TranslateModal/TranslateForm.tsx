@@ -1,96 +1,45 @@
-import {
-  Box,
-  Divider,
-  FormLabel,
-  HStack,
-  Input,
-  Stack,
-  Text,
-  Textarea,
-} from '@chakra-ui/react'
+import { Divider, Stack } from '@chakra-ui/react'
 import { StrapiTranslatableModel } from '@wsvvrijheid/types'
 
-import { Flags } from '../../components'
+import { TranslateFormItem } from './TranslateFormItem'
 import { TranslateFormProps } from './types'
 
 export const TranslateForm = <T extends StrapiTranslatableModel>({
-  translationKey,
   localizedModels,
+  translationKey,
 }: TranslateFormProps<T>) => {
-  const [currentLocale, targetLocale] = translationKey
-
-  const currentModel = localizedModels[currentLocale]
+  const currentModel = localizedModels[translationKey[0]]
 
   return (
     <Stack justify="stretch">
       {currentModel.title && (
-        <Stack>
-          <FormLabel htmlFor={`${currentModel.id} title`}>Title</FormLabel>
-          <Stack direction={{ base: 'column', lg: 'row' }}>
-            <HStack w={{ base: 'full', lg: 400 }} align="baseline">
-              <Box as={Flags[currentLocale]} />
-              <Text>{currentModel.title}</Text>
-            </HStack>
-            <HStack flex={1} align="baseline">
-              <Box as={Flags[targetLocale]} />
-              <Input id={`${currentModel.id} title`} placeholder="Title" />
-            </HStack>
-          </Stack>
-        </Stack>
+        <TranslateFormItem
+          localizedModels={localizedModels}
+          translationKey={translationKey}
+          field="title"
+        />
       )}
 
       {currentModel.description && (
         <>
           <Divider orientation="horizontal" />
 
-          <Stack>
-            <FormLabel htmlFor={`${currentModel.id} description`}>
-              Description
-            </FormLabel>
-            <Stack direction={{ base: 'column', lg: 'row' }}>
-              <HStack w={{ base: 'full', lg: 400 }} align="baseline">
-                <Box as={Flags[currentLocale]} />
-                <Text>{currentModel.description}</Text>
-              </HStack>
-              <HStack flex={1} align="baseline">
-                <Box as={Flags[targetLocale]} />
-                <Textarea
-                  id={`${currentModel.id} description`}
-                  h="auto"
-                  minH={{ base: 300, lg: 'auto' }}
-                  placeholder="Description"
-                />
-              </HStack>
-            </Stack>
-          </Stack>
+          <TranslateFormItem
+            localizedModels={localizedModels}
+            translationKey={translationKey}
+            field="description"
+          />
         </>
       )}
 
       {currentModel.content && (
         <>
           <Divider orientation="horizontal" />
-          <Stack>
-            <FormLabel htmlFor={`${currentModel.id} content`}>
-              Content
-            </FormLabel>
-            <Stack direction={{ base: 'column', lg: 'row' }}>
-              <HStack w={{ base: 'full', lg: 400 }} align="baseline">
-                <Box as={Flags[currentLocale]} />
-                <Text maxH={300} overflowY="auto">
-                  {currentModel.content}
-                </Text>
-              </HStack>
-              <HStack flex={1} align="baseline">
-                <Box as={Flags[targetLocale]} />
-                <Textarea
-                  id={`${currentModel.id} content`}
-                  h="auto"
-                  minH={{ base: 300, lg: 'auto' }}
-                  placeholder="Content"
-                />
-              </HStack>
-            </Stack>
-          </Stack>
+          <TranslateFormItem
+            localizedModels={localizedModels}
+            translationKey={translationKey}
+            field="content"
+          />
         </>
       )}
     </Stack>
