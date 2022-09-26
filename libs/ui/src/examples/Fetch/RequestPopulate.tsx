@@ -21,7 +21,7 @@ import { FaDownload, FaPlus } from 'react-icons/fa'
 
 import { LanguageSwitcher } from '../../admin'
 
-const URL_OPTIONS: StrapiUrl[] = [
+export const URL_OPTIONS: StrapiUrl[] = [
   'api/activities',
   'api/announcements',
   'api/applicants',
