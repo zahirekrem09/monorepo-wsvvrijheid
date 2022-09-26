@@ -15,6 +15,7 @@ type Request = {
   id?: number
   token?: string
   locale?: StrapiLocale
+  fields?: string[]
   filters?: { [key: string]: unknown }
   populate?: string | string[]
   sort?: string | string[]
@@ -28,6 +29,7 @@ export const request = async <T extends StrapiModel | StrapiModel[]>({
   id,
   token,
   locale,
+  fields,
   filters,
   populate = '*',
   sort,
@@ -40,6 +42,7 @@ export const request = async <T extends StrapiModel | StrapiModel[]>({
       publicationState,
       locale,
       populate,
+      fields,
       filters,
       sort,
       pagination: {
