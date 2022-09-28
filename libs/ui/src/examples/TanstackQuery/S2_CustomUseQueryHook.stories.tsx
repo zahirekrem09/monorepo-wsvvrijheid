@@ -1,14 +1,14 @@
 import { Container } from '@chakra-ui/react'
 import { Meta, Story } from '@storybook/react'
 
-import { FetcAxios } from './E1_FetchAxios'
+import { CustomUseQueryHook } from './E2_CustomUseQueryHook'
 
 export default {
-  component: FetcAxios,
-  title: 'Example/E1_FetchAxios',
+  component: CustomUseQueryHook,
+  title: 'Example/E1_CustomUseQueryHook',
   decorators: [Story => <Container maxW="container.xl">{Story()}</Container>],
-} as Meta<typeof FetcAxios>
+} as Meta<typeof CustomUseQueryHook>
 
-const Template: Story = () => <FetcAxios />
+const Template: Story = () => <CustomUseQueryHook />
 
 export const Default = Template.bind({})

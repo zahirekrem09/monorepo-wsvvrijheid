@@ -7,7 +7,7 @@ export default {
   component: RequestUseQuery,
   title: 'Example/E6_RequestUseQuery',
   decorators: [Story => <Container maxW="container.xl">{Story()}</Container>],
-} as Meta<typeof Notification>
+} as Meta<typeof RequestUseQuery>
 
 const Template: Story = () => <RequestUseQuery />
 

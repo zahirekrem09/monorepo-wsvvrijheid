@@ -7,7 +7,7 @@ export default {
   component: FetchRequest,
   title: 'Example/E3_FetchRequest',
   decorators: [Story => <Container maxW="container.xl">{Story()}</Container>],
-} as Meta<typeof Notification>
+} as Meta<typeof FetchRequest>
 
 const Template: Story = () => <FetchRequest />
 

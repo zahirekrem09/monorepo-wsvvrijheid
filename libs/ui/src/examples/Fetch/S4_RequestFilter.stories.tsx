@@ -10,7 +10,7 @@ export default {
     initialValue: 'a',
   },
   decorators: [Story => <Container maxW="container.xl">{Story()}</Container>],
-} as Meta<typeof Notification>
+} as Meta<typeof RequestFilter>
 
 const Template: Story<RequestFilterProps> = args => <RequestFilter {...args} />
 

@@ -7,7 +7,7 @@ export default {
   component: FetchFetcher,
   title: 'Example/E2_FetchFetcher',
   decorators: [Story => <Container maxW="container.xl">{Story()}</Container>],
-} as Meta<typeof Notification>
+} as Meta<typeof FetchFetcher>
 
 const Template: Story = () => <FetchFetcher />
 

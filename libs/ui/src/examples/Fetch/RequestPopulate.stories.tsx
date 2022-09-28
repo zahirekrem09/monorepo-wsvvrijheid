@@ -5,7 +5,7 @@ import { RequestPopulate } from './RequestPopulate'
 export default {
   component: RequestPopulate,
   title: 'Example/RequestPopulate',
-} as Meta<typeof Notification>
+} as Meta<typeof RequestPopulate>
 
 const Template: Story = () => <RequestPopulate />
 

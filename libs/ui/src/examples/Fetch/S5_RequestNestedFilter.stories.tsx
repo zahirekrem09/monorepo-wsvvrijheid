@@ -13,7 +13,7 @@ export default {
     initialValue: 'a',
   },
   decorators: [Story => <Container maxW="container.xl">{Story()}</Container>],
-} as Meta<typeof Notification>
+} as Meta<typeof RequestNestedFilter>
 
 const Template: Story<RequestNestedFilterProps> = args => (
   <RequestNestedFilter {...args} />
