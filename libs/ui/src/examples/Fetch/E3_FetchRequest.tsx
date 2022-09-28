@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 
 import { Box, Stack } from '@chakra-ui/react'
 import { API_URL, TOKEN } from '@wsvvrijheid/config'
-import { request } from '@wsvvrijheid/utils'
 import { Blog } from '@wsvvrijheid/types'
+import { request } from '@wsvvrijheid/utils'
 
 const BLOG_URL = `${API_URL}/api/blogs`
 const API_TOKEN = TOKEN

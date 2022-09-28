@@ -3,8 +3,8 @@ import { FC, useEffect, useState } from 'react'
 
 import { Box, Stack } from '@chakra-ui/react'
 import { API_URL, TOKEN } from '@wsvvrijheid/config'
-import { request } from '@wsvvrijheid/utils'
 import { Blog } from '@wsvvrijheid/types'
+import { request } from '@wsvvrijheid/utils'
 
 export type RequestNestedFilterProps = {
   initialName: string
@@ -16,7 +16,6 @@ export const RequestNestedFilter: FC<RequestNestedFilterProps> = ({
   const [blogs, setBlogs] = useState<Blog[]>([])
   const [nameFilter, setNameFilter] = useState(initialName)
 
-
   useEffect(() => {
     // TODO: Fetch blogs by author name (blog.author.name) with nameFilter by using our custom request function
     // Changing nameFilter should trigger a new fetch.
@@ -26,14 +25,15 @@ export const RequestNestedFilter: FC<RequestNestedFilterProps> = ({
         // const { data } = await fetcher(API_TOKEN)(BLOG_URL)
         // const { data } = await request({ url: 'api/blogs' })
         const { data } = await request<Blog[]>({
-          url: "api/blogs",
+          url: 'api/blogs',
           filters: {
-            author: 
-              {username:{
-              $containsi: nameFilter,
-            }}
+            author: {
+              username: {
+                $containsi: nameFilter,
+              },
+            },
           },
-          locale: 'tr'
+          locale: 'tr',
         })
         console.log(data)
         setBlogs(data)

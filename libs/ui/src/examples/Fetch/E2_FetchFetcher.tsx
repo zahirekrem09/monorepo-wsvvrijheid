@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react'
 
 import { Box, Stack } from '@chakra-ui/react'
 import { API_URL, TOKEN } from '@wsvvrijheid/config'
+import { Blog } from '@wsvvrijheid/types'
 import { fetcher } from '@wsvvrijheid/utils'
 import axios from 'axios'
-import { Blog } from '@wsvvrijheid/types'
 
 const BLOG_URL = `${API_URL}/api/blogs`
 const API_TOKEN = TOKEN

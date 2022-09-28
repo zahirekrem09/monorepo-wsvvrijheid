@@ -3,8 +3,8 @@ import { FC, useEffect, useState } from 'react'
 
 import { Box, Stack } from '@chakra-ui/react'
 import { API_URL, TOKEN } from '@wsvvrijheid/config'
-import { request } from '@wsvvrijheid/utils'
 import { Blog } from '@wsvvrijheid/types'
+import { request } from '@wsvvrijheid/utils'
 
 export type RequestFilterProps = {
   initialValue: string
@@ -21,13 +21,13 @@ export const RequestFilter: FC<RequestFilterProps> = ({ initialValue }) => {
     const getBlogs = async () => {
       try {
         const { data } = await request<Blog[]>({
-          url: "api/blogs",
+          url: 'api/blogs',
           filters: {
             title: {
               $containsi: titleFilter,
-            }
+            },
           },
-          locale: 'tr'
+          locale: 'tr',
         })
         console.log(data)
         setBlogs(data)
@@ -37,7 +37,7 @@ export const RequestFilter: FC<RequestFilterProps> = ({ initialValue }) => {
     }
     getBlogs()
   }, [titleFilter])
-  console.log(titleFilter);
+  console.log(titleFilter)
 
   // TODO Add Input to change titleFilter
   return (
