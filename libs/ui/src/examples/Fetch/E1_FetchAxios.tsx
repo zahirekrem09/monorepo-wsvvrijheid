@@ -4,27 +4,29 @@ import { useEffect, useState } from 'react'
 import { Box, Stack } from '@chakra-ui/react'
 import { API_URL, TOKEN } from '@wsvvrijheid/config'
 import axios from 'axios'
+import { Blog } from '@wsvvrijheid/types'
 
 const BLOG_URL = `${API_URL}/api/blogs` // https://api.samenvvv.nl/api/blogs
 const API_TOKEN = TOKEN
 
 export const FetcAxios = () => {
-  const [blogs, setBlogs] = useState([])
-
-  const getBlogs = async () => {
-    try {
-      const { data } = await axios.get(BLOG_URL)
-      setBlogs(data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const [blogs, setBlogs] = useState<Blog[]>([])
 
   useEffect(() => {
     // TODO: fetch blogs with axios by using the API_URL and TOKEN
+
+    const getBlogs = async () => {
+      try {
+        const { data } = await axios.get(BLOG_URL)
+        setBlogs(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     getBlogs()
   }, [])
-  console.log(blogs)
+  // console.log(blogs)
 
   return (
     <Box>
