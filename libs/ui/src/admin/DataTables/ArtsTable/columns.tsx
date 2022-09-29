@@ -1,6 +1,8 @@
-import { ApprovalStatus, Art, User } from '@wsvvrijheid/types'
+import { ApprovalStatus, Art, StrapiLocale, User } from '@wsvvrijheid/types'
 
 import { WTableProps } from '../../../components'
+import { LocaleBadges } from '../../LocaleBadges'
+import { PublicationBadges } from '../../PublicationBadges'
 
 export const columns: WTableProps<Art>['columns'] = {
   images: {
@@ -11,7 +13,7 @@ export const columns: WTableProps<Art>['columns'] = {
   },
   description: {},
   artist: {
-    transform: value => (value as User).username,
+    transform: value => (value as User)?.username,
     sortKey: 'username',
     sortable: true,
   },
@@ -29,7 +31,16 @@ export const columns: WTableProps<Art>['columns'] = {
       }
     },
   },
+  translates: {
+    transform: value => <LocaleBadges locales={value as StrapiLocale[]} />,
+  },
   publishedAt: {
+    label: 'Published',
+    transform: value => (
+      <PublicationBadges publishedAt={value as string | null} />
+    ),
+  },
+  createdAt: {
     type: 'date',
     componentProps: {
       format: 'dd MMMM',
