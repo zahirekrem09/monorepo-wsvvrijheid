@@ -7,10 +7,11 @@ import {
   FormLabel,
 } from '@chakra-ui/react'
 import {
-  Select,
   Props as SelectProps,
   GroupBase,
   SelectInstance,
+  AsyncSelect,
+  chakraComponents,
 } from 'chakra-react-select'
 import { Control, FieldValues, useController } from 'react-hook-form'
 
@@ -23,6 +24,10 @@ type SelectOption = {
 
 export type WSelectProps<SelectFormFieldValues extends FieldValues> = {
   control: Control
+  isAsync?: boolean
+  url?: string
+  token?: string
+  asyncFunction?: (inputValue: string, callback: () => any) => Promise<any>
 } & Omit<FormItemProps<SelectFormFieldValues>, 'register' | 'leftElement'> &
   SelectProps<SelectOption, boolean, GroupBase<SelectOption>> &
   RefAttributes<SelectInstance<SelectOption, boolean, GroupBase<SelectOption>>>
@@ -41,6 +46,10 @@ export const WSelect: WSelectComponent = ({
   helperText,
   placeholder,
   options,
+  isAsync,
+  url,
+  token,
+  asyncFunction,
   ...rest
 }) => {
   const { field } = useController({
@@ -49,6 +58,19 @@ export const WSelect: WSelectComponent = ({
   })
 
   const errorMessage = errors?.[name]?.['message'] as unknown as string
+
+  const asyncComponents = {
+    LoadingIndicator: (props: any) => (
+      <chakraComponents.LoadingIndicator
+        color="currentColor"
+        emptyColor="transparent"
+        spinnerSize="md"
+        speed="0.45s"
+        thickness="2px"
+        {...props}
+      />
+    ),
+  }
 
   return (
     <FormControl
@@ -62,9 +84,10 @@ export const WSelect: WSelectComponent = ({
         </FormLabel>
       )}
 
-      <Select<SelectOption, boolean, GroupBase<SelectOption>>
-        options={options}
-        placeholder={placeholder || label}
+      <AsyncSelect<SelectOption, boolean, GroupBase<SelectOption>>
+        defaultOptions={options}
+        components={asyncComponents}
+        loadOptions={isAsync ? asyncFunction : null}
         {...field}
         {...rest}
       />

@@ -26,7 +26,6 @@ export const getArtCategories = async (
 
 export const useGetArtCategories = (status?: ApprovalStatus) => {
   const { locale } = useRouter()
-
   return useQuery({
     queryKey: ['art-categories', locale],
     queryFn: () => getArtCategories(locale as StrapiLocale, status),

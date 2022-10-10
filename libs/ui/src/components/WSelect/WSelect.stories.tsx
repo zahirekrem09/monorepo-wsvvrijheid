@@ -1,5 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Story, Meta } from '@storybook/react'
+import { TOKEN } from '@wsvvrijheid/config'
+import { Mention } from '@wsvvrijheid/types'
+import axios from 'axios'
+import qs from 'qs'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -24,7 +28,7 @@ const categorySchema = yup.object().shape({
 // SELECT COMPONENT
 
 const objectSchema = yup.object({
-  category: categorySchema,
+  category: categorySchema.nullable(),
 })
 
 type SelectFormFieldValues = {
@@ -130,4 +134,73 @@ MultiColor.args = {
   selectedOptionColor: 'purple',
   closeMenuOnSelect: false,
   hideSelectedOptions: false,
+}
+
+const AsyncTemplate: Story<WSelectProps<SelectFormFieldValues>> = args => {
+  const {
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(objectSchema),
+    mode: 'all',
+  })
+
+  const loadOptions = async (inputValue: string, callback: () => any) => {
+    const values = options?.filter(i =>
+      i.label?.toLowerCase().includes(inputValue.toLowerCase()),
+    )
+
+    if (!values?.length === 0) {
+      callback(values)
+    } else {
+      const query = qs.stringify(
+        {
+          filters: {
+            name_en: {
+              $containsi: inputValue,
+            },
+          },
+        },
+        { encodeValuesOnly: true },
+      )
+
+      const response = await axios.get(
+        `https://api.samenvvv.nl/api/categories?slug=en&${query}`,
+        {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
+        },
+      )
+
+      const data = response.data.data.map(item => {
+        return {
+          label: item.name_en,
+          value: item.name_en,
+        }
+      })
+
+      callback(data)
+    }
+  }
+
+  return (
+    <WSelect
+      {...args}
+      name="category"
+      errors={errors}
+      control={control}
+      options={options}
+      colorScheme="primary"
+      placeholder="Select a category"
+      asyncFunction={loadOptions}
+    />
+  )
+}
+
+export const AsyncSelect = AsyncTemplate.bind({})
+AsyncSelect.args = {
+  label: 'Async',
+  isAsync: true,
+  isMulti: true,
 }
