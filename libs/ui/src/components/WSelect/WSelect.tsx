@@ -1,5 +1,3 @@
-import { RefAttributes } from 'react'
-
 import {
   FormControl,
   FormErrorMessage,
@@ -9,7 +7,6 @@ import {
 import {
   Props as SelectProps,
   GroupBase,
-  SelectInstance,
   AsyncSelect,
   chakraComponents,
 } from 'chakra-react-select'
@@ -23,14 +20,13 @@ type SelectOption = {
 }
 
 export type WSelectProps<SelectFormFieldValues extends FieldValues> = {
-  control: Control
+  control: Control<SelectFormFieldValues>
   isAsync?: boolean
   url?: string
   token?: string
   asyncFunction?: (inputValue: string, callback: () => any) => Promise<any>
 } & Omit<FormItemProps<SelectFormFieldValues>, 'register' | 'leftElement'> &
-  SelectProps<SelectOption, boolean, GroupBase<SelectOption>> &
-  RefAttributes<SelectInstance<SelectOption, boolean, GroupBase<SelectOption>>>
+  SelectProps<SelectOption, boolean, GroupBase<SelectOption>>
 
 export type WSelectComponent = <SelectFormFieldValues extends FieldValues>(
   props: WSelectProps<SelectFormFieldValues>,
