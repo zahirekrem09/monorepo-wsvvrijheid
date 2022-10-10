@@ -1,7 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Story, Meta } from '@storybook/react'
 import { TOKEN } from '@wsvvrijheid/config'
-import { Mention } from '@wsvvrijheid/types'
 import axios from 'axios'
 import qs from 'qs'
 import { useForm } from 'react-hook-form'
