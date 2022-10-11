@@ -148,7 +148,24 @@
           "defaultConfiguration": "production",
           "options": {
             "root": "apps/foundation",
-            "outputPath": "dist/apps/foundation"
+            "outputPath": "dist/apps/foundation",
+             "assets": [
+              {
+                "input": "libs/assets/src/images",
+                "glob": "*.{png,jpg,jpeg,gif,svg}",
+                "output": "images"
+              },
+              {
+                "input": "libs/assets/src/foundation",
+                "glob": "*.{png,jpg,jpeg,gif,svg,webmanifest,ico}",
+                "output": "."
+              },
+              {
+                "input": "public/locales",
+                "glob": "**/*.json",
+                "output": "locales"
+              }
+            ]
           },
           "configurations": {
             "development": { "outputPath": "apps/foundation" },
